@@ -8,14 +8,20 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function create()
-    {
-        return view('products.create');
-    }
-
     public function index()
     {
         return view('products.index');
+    }
+
+    public function list()
+    {
+        $products = Product::with('images')->latest()->get();
+        return response()->json($products);
+    }
+
+    public function create()
+    {
+        return view('products.create');
     }
 
     public function store(Request $request)
@@ -51,11 +57,7 @@ class ProductController extends Controller
         ]);
     }
 
-    public function list()
-    {
-        $products = Product::with('images')->latest()->get();
-        return response()->json($products);
-    }
+   
 
     public function edit($id)
     {
@@ -117,4 +119,5 @@ class ProductController extends Controller
             'message' => 'Deleted Successfully'
         ]);
     }
+
 }

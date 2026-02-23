@@ -18,6 +18,7 @@ Route::get('/edit/{id}', [ProductController::class, 'edit']);
 Route::post('/update/{id}', [ProductController::class, 'update']);
 Route::delete('/delete-image/{id}', [ProductController::class, 'deleteImage']);
 
-Route::post('/store', [ProductController::class, 'store']);
+
 Route::get('/products', [ProductController::class, 'list']);
+Route::post('/store', [ProductController::class, 'store']);
 Route::delete('/delete/{id}', [ProductController::class, 'destroy']);
