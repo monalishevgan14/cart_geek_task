@@ -11,7 +11,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind('test', function () {
+            return new \App\Services\TestService();
+        });
     }
 
     /**
@@ -21,4 +23,5 @@ class AppServiceProvider extends ServiceProvider
     {
         //
     }
+
 }

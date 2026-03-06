@@ -5,17 +5,32 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
+use App\Events\ProductCreated;
+Use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
     public function index()
     {
+        // Log::info('Test log working');
         return view('products.index');
+    }
+
+    public function list1()
+    {
+        $products = Product::with('images')->latest()->get();
+        return response()->json($products);
     }
 
     public function list()
     {
-        $products = Product::with('images')->latest()->get();
+        $products = Product::with('images')
+                            ->where('user_id', Auth::id())   // filter by logged user
+                            ->latest()
+                            ->get();
+
         return response()->json($products);
     }
 
@@ -36,6 +51,7 @@ class ProductController extends Controller
             'product_name' => $request->product_name,
             'product_price' => $request->product_price,
             'product_description' => $request->product_description,
+            'user_id' => Auth::id()
         ]);
 
         if($request->hasFile('product_image')){
@@ -51,13 +67,14 @@ class ProductController extends Controller
             }
         }
 
+        // FIRE EVENT
+        ProductCreated::dispatch($product);
+
         return response()->json([
             'status' => true,
             'message' => 'Product Added Successfully'
         ]);
     }
-
-   
 
     public function edit($id)
     {

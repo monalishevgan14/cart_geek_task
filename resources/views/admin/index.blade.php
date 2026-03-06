@@ -10,9 +10,9 @@
     @endif
     <div class="card-header bg-primary text-white d-flex justify-content-between">
         <span>Product List</span>
-        <button class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#addModal">
+        {{-- <button class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#addModal">
             + Add Product
-        </button>
+        </button> --}}
     </div>
 
     <div class="card-body">
@@ -21,6 +21,7 @@
             <thead>
                 <tr>
                     <th>ID</th>
+                    <th>User</th>
                     <th>Name</th>
                     <th>Price</th>
                     <th>Description</th>
@@ -106,7 +107,7 @@ $(document).ready(function(){
 /* ------------------ LOAD PRODUCTS ------------------ */
 function loadProducts()
 {
-    $.get('/products', function(products){
+    $.get("{{ route('adminProducts.list') }}", function(products){
 
         let rows = '';
 
@@ -121,16 +122,13 @@ function loadProducts()
             rows += `
                 <tr>
                     <td>${product.id}</td>
+                    <td>${product.user ? product.user.name : 'N/A'}</td>
                     <td>${product.product_name}</td>
                     <td>${product.product_price}</td>
                     <td>${product.product_description}</td>
                     <td>${imagesHtml}</td>
                     <td>
-                        <button type="button"
-                            onclick="editProduct(${product.id})"
-                            class="btn btn-warning btn-sm">
-                            Edit
-                        </button>
+                       
                         <button type="button"
                             onclick="deleteProduct(${product.id})"
                             class="btn btn-danger btn-sm">

@@ -98,9 +98,22 @@
 <div class="main-content">
 
     <!-- Topbar -->
-    <div class="topbar d-flex justify-content-between align-items-center">
+    {{-- <div class="topbar d-flex justify-content-between align-items-center">
         <h5 class="mb-0">Product Management</h5>
         <span>Welcome, Admin</span>
+    </div> --}}
+
+    <div class="topbar d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Product Management</h5>
+
+        <div class="d-flex align-items-center gap-3">
+            <span>Welcome, {{ Auth::user()->name }}</span>
+
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="btn btn-danger">Logout</button>
+            </form>
+        </div>
     </div>
 
     <div class="p-4">
